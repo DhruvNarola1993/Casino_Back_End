@@ -14,10 +14,20 @@ async function insertServices(params) {
     try {
         var insertSave = await models.Roles.create(params);
         if (insertSave != undefined) {
+            let strQuery = "SELECT t2.ROLE_ID AS ROLE_ID, t2.ROLE_NAME AS ROLE_NAME, " + 
+            " group_concat(t1.ROLE_NAME ORDER BY t1.ROLE_ID DESC) AS MASTER_ROLE_NAME, " + 
+            " group_concat(t1.ROLE_ID ORDER BY t1.ROLE_ID DESC) AS ROLE_PARENT_ID ,  " +
+            " t2.DESCRIPTION AS DESCRIPTION, " +
+            " t2.UPDATE_DATE AS UPDATE_DATE  " +
+            " FROM ROLES t1, ROLES t2  " +
+            " WHERE t1.ISDELETE = 0 and t2.ISACTIVE = 1 and t2.ROLE_ID =  " + insertSave.ROLE_ID +
+            " AND  FIND_IN_SET(t1.ROLE_ID, t2.ROLE_PARENT_ID) " +
+            " group by t2.ROLE_ID LIMIT 1 ";
+            var getRow = await sequelize.query(strQuery, { type: QueryTypes.SELECT });
             return {
                 status: true,
                 msg: "Create Successfully.",
-                data: insertSave
+                data: getRow[0]
             }
         } else {
             /// 502
@@ -48,8 +58,9 @@ async function listServices(params) {
         const { pageNumber, pageLimit } = params;
         let listQuery = "SELECT t2.ROLE_ID AS ROLE_ID, t2.ROLE_NAME AS ROLE_NAME, " +
             " group_concat(t1.ROLE_NAME ORDER BY t1.ROLE_ID DESC) AS MASTER_ROLE_NAME, " +
-            " group_concat(t1.ROLE_ID ORDER BY t1.ROLE_ID DESC) AS MASTER_ROLE_ID , " +
-            " t2.DESCRIPTION AS DESCRIPTION " +
+            " group_concat(t1.ROLE_ID ORDER BY t1.ROLE_ID DESC) AS ROLE_PARENT_ID , " +
+            " t2.DESCRIPTION AS DESCRIPTION, " +
+            " t2.UPDATE_DATE AS UPDATE_DATE  " +
             " FROM ROLES t1, ROLES t2  WHERE t1.ISDELETE = 0 and t2.ISACTIVE = 1 AND " +
             " FIND_IN_SET(t1.ROLE_ID, t2.ROLE_PARENT_ID) group by t2.ROLE_ID " +
             " ORDER BY t2.ROLE_ID DESC " +
@@ -114,17 +125,26 @@ async function updateServices(params) {
         var updateOne = await models.Roles.update(
             { ROLE_NAME: ROLE_NAME, ROLE_PARENT_ID: ROLE_PARENT_ID, DESCRIPTION: DESCRIPTION, UPDATE_DATE: new Date(), ISACTIVE: ISACTIVE },
             {
-                where: { ROLE_ID: ROLE_ID },
-                returning: true,
-                plain: true
+                where: { ROLE_ID: ROLE_ID }
             }
         );
         if (updateOne) {
+            let strQuery = "SELECT t2.ROLE_ID AS ROLE_ID, t2.ROLE_NAME AS ROLE_NAME, " + 
+            " group_concat(t1.ROLE_NAME ORDER BY t1.ROLE_ID DESC) AS MASTER_ROLE_NAME, " + 
+            " group_concat(t1.ROLE_ID ORDER BY t1.ROLE_ID DESC) AS ROLE_PARENT_ID ,  " +
+            " t2.DESCRIPTION AS DESCRIPTION, " +
+            " t2.UPDATE_DATE AS UPDATE_DATE  " +
+            " FROM ROLES t1, ROLES t2  " +
+            " WHERE t1.ISDELETE = 0 and t2.ISACTIVE = 1 AND t2.ROLE_ID =  " + ROLE_ID +
+            " AND  FIND_IN_SET(t1.ROLE_ID, t2.ROLE_PARENT_ID) " +
+            " group by t2.ROLE_ID LIMIT 1 ";
+            var getRow = await sequelize.query(strQuery, { type: QueryTypes.SELECT });
             return {
                 status: true,
                 msg: "Update data Successfully.",
-                data: updateOne
+                data: getRow[0]
             }
+            
         } else {
             return {
                 status: false,

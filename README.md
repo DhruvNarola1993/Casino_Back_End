@@ -1,4 +1,2 @@
 # Casino Backend 
 
-
-### Docker Compose 
