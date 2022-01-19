@@ -1,4 +1,4 @@
-const { insertHelper, viewHelper, updateHelper, deleteHelper } = require('../helper/game-group.helper');
+const { insertHelper, viewHelper, updateHelper, deleteHelper } = require('../helper/faq.helper');
 
 /***
  * 
@@ -39,7 +39,7 @@ exports.insertController = async (req, res, next) => {
  exports.updateController = async (req, res, next) => {
     var response;
     try {
-        req.body.GAMEGROUP_ID = req.params.id;
+        req.body.FAQ_ID = req.params.id;
         response = await updateHelper(req.body);
         res.json(response);
     } catch (error) {

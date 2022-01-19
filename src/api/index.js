@@ -3,8 +3,13 @@ var router = require('express').Router();
 
 router.get('/', (req, res) => res.sendFile(__dirname + './../../index.html'));
 
-router.use('/role', require('./router/role.router'));
+router.use('/agenttype', require('./router/role.router'));
 
+router.use('/gametype', require('./router/game-group.router'));
+
+router.use('/faq', require('./router/faq.router'));
+
+router.use('/setting', require('./router/setting.router'));
 
 /***
  * 

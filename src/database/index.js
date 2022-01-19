@@ -23,7 +23,9 @@ if (config.use_env_variable) {
 
 const modelDefiners = [
 	require('./model/role.model'),
-	require('./model/game-group.model')
+	require('./model/game-group.model'),
+  require('./model/faq.model'),
+  require('./model/setting.model')
 ];
 
 // We define all models according to their files.

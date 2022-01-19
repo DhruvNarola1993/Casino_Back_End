@@ -1,6 +1,4 @@
 
-const { QueryTypes } = require('sequelize');
-const sequelize = require('../../database/index');
 const { models } = require('../../database/index');
 
 /***
@@ -11,9 +9,8 @@ const { models } = require('../../database/index');
  */
 async function insertServices(params) {
     try {
-        var insertSave = await models.GameGroup.create(params);
+        var insertSave = await models.Coinpack.create(params);
         if (insertSave != undefined) {
-
             return {
                 status: true,
                 msg: "Create Successfully.",
@@ -46,8 +43,8 @@ async function insertServices(params) {
 async function listServices(params) {
     try {
         const { pageNumber, pageLimit } = params;
-        let listQuery = await models.GameGroup.findAll({ where: { ISDELETE: false } });
-        let countRecords = await models.GameGroup.count({ where: { ISDELETE: false } });
+        let listQuery = await models.Coinpack.findAll({});
+        let countRecords = await models.Coinpack.count({});
         return {
             status: true,
             msg: "Show data Successfully.",
@@ -73,9 +70,13 @@ async function listServices(params) {
  */
 async function updateServices(params) {
     try {
-        const { GAMEGROUP_ID, GAMEGROUP_NAME, DESCRIPTION, ISACTIVE } = params;
-        var updateOne = await models.GameGroup.upsert(
-            { GAMEGROUP_ID: GAMEGROUP_ID, GAMEGROUP_NAME: GAMEGROUP_NAME, DESCRIPTION: DESCRIPTION, UPDATE_DATE: new Date(), ISACTIVE: ISACTIVE }
+        const { PACK_ID, PACK_NAME, MAGESTIC_POINTS, MAGESTIC_COIN, BUY_AMOUNT, ISOFFER, DISCOUNT } = params;
+        var updateOne = await models.Coinpack.upsert(
+            {
+                PACK_ID: PACK_ID, PACK_NAME: PACK_NAME, MAGESTIC_POINTS: MAGESTIC_POINTS,
+                MAGESTIC_COIN: MAGESTIC_COIN, BUY_AMOUNT: BUY_AMOUNT, ISOFFER: ISOFFER,
+                DISCOUNT: DISCOUNT, UPDATE_DATE: new Date(), ISACTIVE: true
+            }
         );
         if (updateOne) {
             return {
@@ -109,10 +110,9 @@ async function updateServices(params) {
  */
 async function deleteServices(params) {
     try {
-        const { GAMEGROUP_ID } = params;
-        var deleteOne = await models.GameGroup.update(
-            { UPDATE_DATE: new Date(), ISDELETE: true },
-            { where: { GAMEGROUP_ID: GAMEGROUP_ID } }
+        const { PACK_ID } = params;
+        var deleteOne = await models.Coinpack.upsert(
+            { PACK_ID: PACK_ID, ISDELETE: true }
         );
         if (deleteOne) {
             return {

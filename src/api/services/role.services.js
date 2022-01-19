@@ -2,7 +2,6 @@
 const { QueryTypes } = require('sequelize');
 const sequelize = require('../../database/index');
 const { models } = require('../../database/index');
-const { Op } = require("sequelize");
 
 /***
  * 

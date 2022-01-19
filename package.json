@@ -27,7 +27,8 @@
         "sequelize": "6.6.0",
         "swagger-jsdoc": "6.1.0",
         "swagger-ui-express": "4.3.0",
-        "yup": "0.32.11"
+        "yup": "0.32.11",
+        "https": "1.0.0"
     },
     "devDependencies": {
         "dotenv": "^8.2.0"

@@ -2,6 +2,7 @@ const compression = require('compression');
 const express = require('express');
 const cors = require('cors');
 const app = express();
+const path = require("path");
 
 // parse application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
@@ -12,16 +13,21 @@ app.use(express.json());
 app.use(cors());
 app.use(compression());
 
-
+// add middlewares
+app.use(express.static(path.join(__dirname, "./../build")));
 app.use(express.static("public"));
+
+// app.use((req, res, next) => {
+//     res.sendFile(path.join(__dirname, "..", "build", "index.html"));
+//   });
 
 // app.use('/admin', require('./../admin/v1/admin'));
 
 // Send all other requests to the Angular app
 // app.use(express.static(path.join(__dirname, './../dist')));
-// app.get('*', (req, res) => {
-//     res.sendFile(path.join(__dirname, './../dist/index.html'));
-// });
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, './../build/index.html'));
+});
 
 require('./swagger.connection')(app);
 

@@ -23,7 +23,7 @@ async function init() {
   console.log(`Starting Sequelize + Express example on port ${PORT}...`);
 
   var httpServer = http.createServer(app);
-  httpServer.listen(PORT, '192.168.29.78' ,() => {
+  httpServer.listen(PORT, () => {
     console.log("HTTP Server running on port ", `${PORT}`);
   });
 }
