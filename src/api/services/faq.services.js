@@ -43,12 +43,18 @@ async function insertServices(params) {
 async function listServices(params) {
     try {
         const { pageNumber, pageLimit } = params;
-        let listQuery = await models.Faq.findAll({  });
-        let countRecords = await models.Faq.count({ });
+        let listQuery = await models.Faq.findAll({
+            offset: pageNumber * pageLimit,
+            limit: pageLimit,
+            order: [
+                ['FAQ_ID', 'DESC']
+            ],
+        });
+        let countRecords = await models.Faq.count({});
         return {
             status: true,
             msg: "Show data Successfully.",
-            total: countRecords - 1,
+            total: countRecords,
             data: listQuery
         }
     } catch (error) {

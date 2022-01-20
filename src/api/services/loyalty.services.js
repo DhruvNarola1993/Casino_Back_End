@@ -9,9 +9,8 @@ const { models } = require('../../database/index');
  */
 async function insertServices(params) {
     try {
-        var insertSave = await models.GameGroup.create(params);
+        var insertSave = await models.Loyalty.create(params);
         if (insertSave != undefined) {
-
             return {
                 status: true,
                 msg: "Create Successfully.",
@@ -44,15 +43,15 @@ async function insertServices(params) {
 async function listServices(params) {
     try {
         const { pageNumber, pageLimit } = params;
-        let listQuery = await models.GameGroup.findAll({
-            where: { ISDELETE: false }, 
+        let listQuery = await models.Loyalty.findAll({
+            where: { ISDELETE: false },
             offset: pageNumber * pageLimit,
             limit: pageLimit,
             order: [
-                ['GAMEGROUP_ID', 'DESC']
+                ['LOYALTY_ID', 'DESC']
             ]
         });
-        let countRecords = await models.GameGroup.count({ where: { ISDELETE: false } });
+        let countRecords = await models.Loyalty.count({ where: { ISDELETE: false } });
         return {
             status: true,
             msg: "Show data Successfully.",
@@ -78,9 +77,12 @@ async function listServices(params) {
  */
 async function updateServices(params) {
     try {
-        const { GAMEGROUP_ID, GAMEGROUP_NAME, DESCRIPTION, ISACTIVE } = params;
-        var updateOne = await models.GameGroup.upsert(
-            { GAMEGROUP_ID: GAMEGROUP_ID, GAMEGROUP_NAME: GAMEGROUP_NAME, DESCRIPTION: DESCRIPTION, UPDATE_DATE: new Date(), ISACTIVE: ISACTIVE }
+        const { LOYALTY_ID, LOYALTY_NAME, LOYALTY_POINTS, LOYALTY_MULTIPLIER } = params;
+        var updateOne = await models.Loyalty.upsert(
+            {
+                LOYALTY_ID: LOYALTY_ID, LOYALTY_NAME: LOYALTY_NAME, LOYALTY_POINTS: LOYALTY_POINTS,
+                LOYALTY_MULTIPLIER: LOYALTY_MULTIPLIER, UPDATE_DATE: new Date(), ISACTIVE: true
+            }
         );
         if (updateOne) {
             return {
@@ -114,10 +116,10 @@ async function updateServices(params) {
  */
 async function deleteServices(params) {
     try {
-        const { GAMEGROUP_ID } = params;
-        var deleteOne = await models.GameGroup.update(
+        const { LOYALTY_ID } = params;
+        var deleteOne = await models.Loyalty.update(
             { UPDATE_DATE: new Date(), ISDELETE: true },
-            { where: { GAMEGROUP_ID: GAMEGROUP_ID } }
+            { where: { LOYALTY_ID: LOYALTY_ID } }
         );
         if (deleteOne) {
             return {

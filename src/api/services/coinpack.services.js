@@ -43,12 +43,19 @@ async function insertServices(params) {
 async function listServices(params) {
     try {
         const { pageNumber, pageLimit } = params;
-        let listQuery = await models.Coinpack.findAll({});
-        let countRecords = await models.Coinpack.count({});
+        let listQuery = await models.Coinpack.findAll({
+            where: { ISDELETE: false },
+            offset: pageNumber * pageLimit,
+            limit: pageLimit,
+            order: [
+                ['PACK_ID', 'DESC']
+            ]
+        });
+        let countRecords = await models.Coinpack.count({ where: { ISDELETE: false } });
         return {
             status: true,
             msg: "Show data Successfully.",
-            total: countRecords - 1,
+            total: countRecords,
             data: listQuery
         }
     } catch (error) {
@@ -70,11 +77,11 @@ async function listServices(params) {
  */
 async function updateServices(params) {
     try {
-        const { PACK_ID, PACK_NAME, MAGESTIC_POINTS, MAGESTIC_COIN, BUY_AMOUNT, ISOFFER, DISCOUNT } = params;
+        const { PACK_ID, PACK_NAME, MAGESTIC_POINTS, MAGESTIC_COINS, BUY_AMOUNT, ISOFFER, DISCOUNT } = params;
         var updateOne = await models.Coinpack.upsert(
             {
                 PACK_ID: PACK_ID, PACK_NAME: PACK_NAME, MAGESTIC_POINTS: MAGESTIC_POINTS,
-                MAGESTIC_COIN: MAGESTIC_COIN, BUY_AMOUNT: BUY_AMOUNT, ISOFFER: ISOFFER,
+                MAGESTIC_COINS: MAGESTIC_COINS, BUY_AMOUNT: BUY_AMOUNT, ISOFFER: ISOFFER,
                 DISCOUNT: DISCOUNT, UPDATE_DATE: new Date(), ISACTIVE: true
             }
         );
@@ -111,8 +118,9 @@ async function updateServices(params) {
 async function deleteServices(params) {
     try {
         const { PACK_ID } = params;
-        var deleteOne = await models.Coinpack.upsert(
-            { PACK_ID: PACK_ID, ISDELETE: true }
+        var deleteOne = await models.Coinpack.update(
+            { UPDATE_DATE: new Date(), ISDELETE: true },
+            { where: { PACK_ID: PACK_ID } }
         );
         if (deleteOne) {
             return {

@@ -11,6 +11,10 @@ router.use('/faq', require('./router/faq.router'));
 
 router.use('/setting', require('./router/setting.router'));
 
+router.use('/coinpack', require('./router/coinpack.router'));
+
+router.use('/loyalty', require('./router/loyalty.router'));
+
 /***
  * 
  * Middleware API - If not found any url

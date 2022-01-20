@@ -25,9 +25,9 @@ app.use(express.static("public"));
 
 // Send all other requests to the Angular app
 // app.use(express.static(path.join(__dirname, './../dist')));
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, './../build/index.html'));
-});
+// app.get('*', (req, res) => {
+//     res.sendFile(path.join(__dirname, './../build/index.html'));
+// });
 
 require('./swagger.connection')(app);
 
