@@ -30,6 +30,9 @@ const modelDefiners = [
   require('./model/coin-pack.model'),
   require('./model/loyalty.model'),
   require('./model/agent-permission.model'),
+  require('./model/menu.model'),
+  require('./model/game.model'),
+  require('./model/menu-permission.model')
 ];
 
 // We define all models according to their files.

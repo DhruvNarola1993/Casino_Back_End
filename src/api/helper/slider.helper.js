@@ -1,4 +1,4 @@
-const { insertServices, listServices, updateServices, deleteServices } = require('../services/game-group.services');
+const { insertServices, listServices, updateServices, deleteServices } = require('../services/slider.services');
 
 /***
  * 

@@ -1,15 +1,25 @@
 function applyForeignKeySetup(sequelize) {
-	const { AgentPermission, Roles } = sequelize.models;
+	const { AgentPermission, Roles, Game,  GameGroup, MenuPermission, Menu} = sequelize.models;
 
-	Roles.hasMany(AgentPermission);
-	AgentPermission.belongsTo(Roles, { constraints: false, allowNull: false, at: 'ROLE_ID' , foreignKey: { name: 'ROLE_ID', fieldName: 'ROLE_ID'} });
-    
+	Roles.hasMany(AgentPermission, { constraints: true, allowNull: false, foreignKey: 'ROLE_ID' });
+	AgentPermission.belongsTo(Roles, { constraints: true, allowNull: false, foreignKey : 'ROLE_ID' });
+
+	GameGroup.hasMany(Game, { constraints: true, allowNull: false, foreignKey: 'GAMEGROUP_ID' });
+	Game.belongsTo(GameGroup, { constraints: true, allowNull: false, foreignKey : 'GAMEGROUP_ID' });
+
+	Roles.hasMany(MenuPermission, { constraints: true, allowNull: false, foreignKey: 'ROLE_ID' });
+    MenuPermission.belongsTo(Roles, { constraints: true, allowNull: false, foreignKey : 'ROLE_ID' });
+
+	Menu.hasMany(MenuPermission, { constraints: true, allowNull: false, foreignKey: 'MENU_ID' });
+    MenuPermission.belongsTo(Menu, { constraints: true, allowNull: false, foreignKey : 'MENU_ID' });
+
+
 }
 
 module.exports = { applyForeignKeySetup };
 
 
-
+// MENU_PERMISSION_ID, ISVIEW, ISUPDATE, ISDELETE, ISNEW, CREATE_DATE, UPDATE_DATE, MASTER_MENU_ID, ROLE_ID
 /**
  * 
  *  "CREATE_CASHIER" , "Can Create Cashiers"

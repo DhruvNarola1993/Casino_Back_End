@@ -15,6 +15,17 @@ router.use('/coinpack', require('./router/coinpack.router'));
 
 router.use('/loyalty', require('./router/loyalty.router'));
 
+router.use('/permission', require('./router/agent-permission.router'));
+
+router.use('/menu', require('./router/menu.router'));
+
+router.use('/game', require('./router/game.router'));
+
+router.use('/slider', require('./router/slider.router'));
+
+router.use('/menupermission', require('./router/slider.router'));
+
+
 /***
  * 
  * Middleware API - If not found any url
