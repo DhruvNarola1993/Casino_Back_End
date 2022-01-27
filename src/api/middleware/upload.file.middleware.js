@@ -20,7 +20,7 @@ var uploadF = multer({ storage: storage, preservePath: false });
 async function startUploadSingleFile(req, res) {
   let filename;
   try {
-    const upload = util.promisify(uploadF.single('fileUpload'));
+    const upload = util.promisify(uploadF.single('FILEUPLOAD'));
     await upload(req, res);
     filename = req.file.filename;
     if (filename != undefined) {
@@ -35,7 +35,6 @@ async function startUploadSingleFile(req, res) {
       };
     }
   } catch (e) {
-    console.log(e)
     return {
       status: false,
       msg: "Only image files are allowed!"

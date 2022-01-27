@@ -19,6 +19,7 @@ if (config.use_env_variable) {
     define: {
       timestamps: false
     },
+    logging: true
   });
 }
 
@@ -32,7 +33,9 @@ const modelDefiners = [
   require('./model/agent-permission.model'),
   require('./model/menu.model'),
   require('./model/game.model'),
-  require('./model/menu-permission.model')
+  require('./model/slider.model'),
+  require('./model/menu-permission.model'),
+  require('./model/agent.model')
 ];
 
 // We define all models according to their files.

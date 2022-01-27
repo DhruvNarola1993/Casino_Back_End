@@ -2,42 +2,62 @@
 const { DataTypes } = require('sequelize');
 
 module.exports = async (sequelize) => {
-    const Slider = sequelize.define('Slider', {
-        SLIDER_ID: {
+    const Agent = sequelize.define('Agent', {
+        AGENT_ID: {
             type: DataTypes.INTEGER,
             allowNull: false,
             primaryKey: true,
             autoIncrement: true,
         },
-        SLIDER_NAME: {
+        AGENT_USERNAME: {
             type: DataTypes.STRING,
             allowNull: false,
+            unique: {
+                args: true,
+                msg: 'User-Name must be unique.'
+            },
             validate: {
                 notNull: {
                     args: true,
-                    msg: "SLIDER_NAME can not be empty."
+                    msg: "User can not be empty."
                 },
                 notEmpty: {
                     args: true,
-                    msg: "SLIDER_NAME can not be empty."
+                    msg: "User can not be empty."
                 },
                 len: {
-                    args: [3, 255],
-                    msg: 'SLIDER_NAME must start with a letter, and be 3 - 255 characters.'
+                    args: [3, 50],
+                    msg: 'User must start with a letter, have no spaces, and be 3 - 50 characters.'
                 },
             },
         },
-        SLIDER_IMAGE_URL: {
-            type: DataTypes.TEXT,
+        AGENT_EMAIL: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        AGENT_PHONE : {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        PASSWORD : {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        ADDRESS : {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        AGENT_PERMISSION_IDS: {
+            type: DataTypes.STRING,
             allowNull: true
         },
-        DESCRIPTION: {
-            type: DataTypes.STRING(100),
+        GAMEGROUP_IDS: {
+            type: DataTypes.STRING,
             allowNull: true
         },
         ISACTIVE: {
             type: DataTypes.BOOLEAN,
-            defaultValue: true,
+            defaultValue: false,
             allowNull: false,
         },
         ISDELETE: {
@@ -53,6 +73,6 @@ module.exports = async (sequelize) => {
             type: DataTypes.DATE,
             defaultValue: DataTypes.NOW
         }
-    }, { tableName: 'SLIDER' });
-    return Slider;
+    }, { tableName: 'AGENT' });
+    return Agent;
 };

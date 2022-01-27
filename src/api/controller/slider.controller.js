@@ -12,7 +12,7 @@ exports.insertController = async (req, res, next) => {
     var response = await startUploadSingleFile(req, res);
     try {
         if (response.status) {
-            req.body.GAME_IMAGE = response.imageurl;
+            req.body.SLIDER_IMAGE_URL = response.imageurl;
             response = await insertHelper(req.body);
             res.json(response);
         } else {
@@ -47,34 +47,48 @@ exports.insertController = async (req, res, next) => {
  exports.updateController = async (req, res, next) => {
     var response;
     try {
-        req.body.GAME_ID = req.params.id;
-        if(req.file != undefined) {
+        req.body.SLIDER_ID = req.params.id;
+        req.body.ISFILE = false;
+        response = await updateHelper(req.body);
+        res.json(response);
+    } catch (error) {
+        res.json({ error: error });
+    }
+};
+
+
+/***
+ * 
+ * @description Role Update 
+ * 
+ */
+ exports.fileupdateController = async (req, res, next) => {
+    var response;
+    try {
+        var response = await startUploadSingleFile(req, res);
+        if (response.status) {
+            req.body.SLIDER_ID = req.params.id;
+            console.log(req.params.id)
+            req.body.ISFILE = true;
+            req.body.SLIDER_IMAGE_URL = response.imageurl;
+            var deleteFile = response.imageurl;
             response = await updateHelper(req.body);
+            if (response.status == false) {
+                var deletePath = path.join(__dirname, process.env.IMAGE_PATH, deleteFile);
+                await fs.unlink(deletePath, (err) => { });
+            } else if (response.status == true) {
+                var deletePath = path.join(__dirname, process.env.IMAGE_PATH, req.body.oldImage);
+                await fs.unlink(deletePath, (err) => { });
+            }
             res.json(response);
         } else {
-            var response = await startUploadSingleFile(req, res);
-            if (response.status) { 
-                req.body.GAME_IMAGE = response.imageurl;
-                var deleteFile = response.imageurl;
-                response = await updateHelper(req.body);
-                if (response.status == false) {
-                    var deletePath = path.join(__dirname, process.env.IMAGE_PATH, deleteFile);
-                    await fs.unlink(deletePath, (err) => { });
-                } else if (response.status == true) {
-                    var deletePath = path.join(__dirname, process.env.IMAGE_PATH, req.body.oldImage);
-                    await fs.unlink(deletePath, (err) => { });
-                }
-                res.json(response);
-            } else {
-                res.json(response);
-            }
+            res.json(response);
         }
     } catch (error) {
         res.json({ error: error });
     }
-   
-};
 
+};
 
 /***
  * 

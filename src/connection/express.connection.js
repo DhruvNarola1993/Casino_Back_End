@@ -5,17 +5,18 @@ const app = express();
 const path = require("path");
 
 // parse application/x-www-form-urlencoded
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 
 // https://stackoverflow.com/questions/62396498/tslint-marks-body-parser-as-deprecated
 // parse application/json
 app.use(express.json());
+app.use(express.raw());
 app.use(cors());
 app.use(compression());
 
 // add middlewares
 app.use(express.static(path.join(__dirname, "./../build")));
-app.use(express.static("public"));
+app.use('/public', express.static(path.join(__dirname, "./../public")));
 
 // app.use((req, res, next) => {
 //     res.sendFile(path.join(__dirname, "..", "build", "index.html"));

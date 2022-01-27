@@ -23,7 +23,9 @@ router.use('/game', require('./router/game.router'));
 
 router.use('/slider', require('./router/slider.router'));
 
-router.use('/menupermission', require('./router/slider.router'));
+router.use('/agent', require('./router/agent.router'));
+
+// router.use('/menupermission', require('./router/slider.router'));
 
 
 /***

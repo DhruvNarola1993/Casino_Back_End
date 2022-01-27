@@ -76,10 +76,20 @@ async function listServices(params) {
  */
 async function updateServices(params) {
     try {
-        const { SLIDER_ID, SLIDER_NAME, SLIDER_IMAGE_URL } = params;
-        var updateOne = await models.Slider.upsert(
-            { SLIDER_ID: SLIDER_ID, SLIDER_NAME: SLIDER_NAME, SLIDER_IMAGE_URL: SLIDER_IMAGE_URL, UPDATE_DATE: new Date(), ISACTIVE: true }
-        );
+        const { ISFILE } = params;
+        var updateOne;
+        if (ISFILE) {
+            const { SLIDER_ID, SLIDER_NAME, SLIDER_IMAGE_URL, DESCRIPTION } = params;
+            updateOne = await models.Slider.upsert(
+                { SLIDER_ID: SLIDER_ID, SLIDER_NAME: SLIDER_NAME, SLIDER_IMAGE_URL: SLIDER_IMAGE_URL, DESCRIPTION: DESCRIPTION, UPDATE_DATE: new Date(), ISACTIVE: true }
+            );
+        } else {
+            const { SLIDER_ID, SLIDER_NAME, DESCRIPTION } = params;
+            updateOne = await models.Slider.upsert(
+                { SLIDER_ID: SLIDER_ID, SLIDER_NAME: SLIDER_NAME, DESCRIPTION: DESCRIPTION, UPDATE_DATE: new Date(), ISACTIVE: true }
+            );
+        }
+
         if (updateOne) {
             return {
                 status: true,
@@ -114,7 +124,7 @@ async function deleteServices(params) {
     try {
         const { SLIDER_ID } = params;
         var deleteOne = await models.Slider.destroy(
-           { where: { SLIDER_ID: SLIDER_ID } }
+            { where: { SLIDER_ID: SLIDER_ID } }
         );
         if (deleteOne) {
             return {

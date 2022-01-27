@@ -114,7 +114,7 @@ async function listServices(params) {
 async function dropdownServices() {
     try {
         var listFind = await models.Roles.findAll({
-            where: { ISDELETE: false, ROLE_ID: { [Op.ne] : 1 }},
+            where: { ISDELETE: false }, /// ROLE_ID: { [Op.ne] : 1 }
             order: [
                 ['ROLE_ID', 'DESC']
             ],

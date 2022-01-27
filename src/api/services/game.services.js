@@ -44,6 +44,7 @@ async function listServices(params) {
     try {
         const { pageNumber, pageLimit } = params;
         let listQuery = await models.Game.findAll({
+            where: { ISDELETE: false },
             offset: pageNumber * pageLimit,
             limit: pageLimit,
             order: [
@@ -76,10 +77,19 @@ async function listServices(params) {
  */
 async function updateServices(params) {
     try {
-        const { GAME_ID, GAME_NAME, GAME_URL, GAME_IMAGE, GAMEGROUP_ID } = params;
-        var updateOne = await models.Game.upsert(
-            { GAME_ID: GAME_ID, GAME_NAME: GAME_NAME, GAME_URL: GAME_URL, GAME_IMAGE: GAME_IMAGE, GAMEGROUP_ID: GAMEGROUP_ID, UPDATE_DATE: new Date(), ISACTIVE: true }
-        );
+        const { ISFILE } = params;
+        var updateOne;
+        if (ISFILE) {
+            const { GAME_ID, GAME_NAME, GAME_URL, GAME_IMAGE, DESCRIPTION, GAMEGROUP_ID } = params;
+            updateOne = await models.Game.upsert(
+                { GAME_ID: GAME_ID, GAME_NAME: GAME_NAME, GAME_URL: GAME_URL, GAME_IMAGE: GAME_IMAGE, DESCRIPTION: DESCRIPTION, GAMEGROUP_ID: GAMEGROUP_ID, UPDATE_DATE: new Date(), ISACTIVE: true }
+            );
+        } else {
+            const { GAME_ID, GAME_NAME, GAME_URL, GAMEGROUP_ID } = params;
+            updateOne = await models.Game.upsert(
+                { GAME_ID: GAME_ID, GAME_NAME: GAME_NAME, GAME_URL: GAME_URL, GAMEGROUP_ID: GAMEGROUP_ID, DESCRIPTION: DESCRIPTION, UPDATE_DATE: new Date(), ISACTIVE: true }
+            );
+        }
         if (updateOne) {
             return {
                 status: true,
@@ -114,7 +124,7 @@ async function deleteServices(params) {
     try {
         const { GAME_ID } = params;
         var deleteOne = await models.Game.update(
-            { ISDELETE: false },
+            { UPDATE_DATE: new Date(), ISDELETE: true },
             { where: { GAME_ID: GAME_ID } }
         );
         if (deleteOne) {

@@ -64,7 +64,6 @@ async function listServices(params) {
             msg: errMessage.split('Validation error: ').join('')
         }
     }
-
 }
 
 

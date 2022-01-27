@@ -32,7 +32,11 @@ module.exports = async (sequelize) => {
         },
         GAME_IMAGE: {
             type: DataTypes.TEXT,
-            allowNull: false
+            allowNull: true
+        },
+        DESCRIPTION: {
+            type: DataTypes.STRING(100),
+            allowNull: true
         },
         ISACTIVE: {
             type: DataTypes.BOOLEAN,
