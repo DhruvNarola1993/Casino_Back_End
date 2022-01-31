@@ -3,7 +3,7 @@ const { DataTypes } = require('sequelize');
 module.exports = async (sequelize) => {
     const Game = sequelize.define('Game', {
         GAME_ID: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.INTEGER.UNSIGNED,
             allowNull: false,
             primaryKey: true,
             autoIncrement: true,

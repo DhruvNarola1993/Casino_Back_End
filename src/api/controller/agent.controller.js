@@ -1,4 +1,5 @@
-const { insertHelper, getAgentTypeHelper, getAgentPermissionHelper, getGameGroupHelper } = require('../helper/agent.helper');
+const { insertHelper, getAgentTypeHelper, getAgentPermissionHelper, getGameGroupHelper, 
+    viewHelper, countUserNameHelper, selectAgentTypeHelper } = require('../helper/agent.helper');
 
 /***
  * 
@@ -8,7 +9,6 @@ const { insertHelper, getAgentTypeHelper, getAgentPermissionHelper, getGameGroup
 exports.insertController = async (req, res, next) => {
     var response;
     try {
-        console.log(req.body)
         response = await insertHelper(req.body);
         res.json(response);
     } catch (error) {
@@ -59,6 +59,55 @@ exports.insertController = async (req, res, next) => {
     var response;
     try {
         response = await getGameGroupHelper(req.body);
+        res.json(response);
+    } catch (error) {
+        res.json({ error: error });
+    }
+};
+
+
+/***
+ * 
+ * @description Role Pagination View in Table 
+ * 
+ */
+ exports.viewController = async (req, res, next) => {
+    var response;
+    try {
+        response = await viewHelper(req.body);
+        res.json(response);
+    } catch (error) {
+        res.json({ error: error });
+    }
+};
+
+/***
+ * 
+ * @description Role Pagination View in Table 
+ * 
+ */
+ exports.selectAgentTypeController = async (req, res, next) => {
+    var response;
+    try {
+        req.body.ROLE_ID = req.params.id;
+        response = await selectAgentTypeHelper(req.body);
+        res.json(response);
+    } catch (error) {
+        res.json({ error: error });
+    }
+};
+
+
+
+/***
+ * 
+ * @description Role Pagination View in Table 
+ * 
+ */
+ exports.countUserNameController = async (req, res, next) => {
+    var response;
+    try {
+        response = await countUserNameHelper(req.body);
         res.json(response);
     } catch (error) {
         res.json({ error: error });

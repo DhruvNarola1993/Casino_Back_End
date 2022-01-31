@@ -4,7 +4,7 @@ const { DataTypes } = require('sequelize');
 module.exports = async (sequelize) => {
     const Agent = sequelize.define('Agent', {
         AGENT_ID: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.INTEGER.UNSIGNED,
             allowNull: false,
             primaryKey: true,
             autoIncrement: true,
@@ -30,6 +30,9 @@ module.exports = async (sequelize) => {
                     msg: 'User must start with a letter, have no spaces, and be 3 - 50 characters.'
                 },
             },
+        },
+        AGENT_NAME : {
+            type: DataTypes.STRING
         },
         AGENT_EMAIL: {
             type: DataTypes.STRING,
@@ -72,7 +75,10 @@ module.exports = async (sequelize) => {
         UPDATE_DATE: {
             type: DataTypes.DATE,
             defaultValue: DataTypes.NOW
-        }
+        },
+        LOGIN_DATE: {
+            type: DataTypes.DATE
+        },
     }, { tableName: 'AGENT' });
     return Agent;
 };

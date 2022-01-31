@@ -4,7 +4,7 @@ const { DataTypes } = require('sequelize');
 module.exports = async (sequelize) => {
     const GameGroup = sequelize.define('GameGroup', {
         GAMEGROUP_ID: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.INTEGER.UNSIGNED,
             allowNull: false,
             primaryKey: true,
             autoIncrement: true,

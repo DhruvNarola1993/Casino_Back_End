@@ -3,7 +3,7 @@ const { DataTypes } = require('sequelize');
 module.exports = async (sequelize) => {
     const Agentpermission = sequelize.define('AgentPermission', {
         AGENT_PERMISSION_ID: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.INTEGER.UNSIGNED,
             allowNull: false,
             primaryKey: true,
             autoIncrement: true,

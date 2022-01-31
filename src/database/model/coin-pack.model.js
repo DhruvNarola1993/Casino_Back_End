@@ -3,7 +3,7 @@ const { DataTypes } = require('sequelize');
 module.exports = async (sequelize) => {
     const Coinpack = sequelize.define('Coinpack', {
         PACK_ID: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.INTEGER.UNSIGNED,
             allowNull: false,
             primaryKey: true,
             autoIncrement: true,

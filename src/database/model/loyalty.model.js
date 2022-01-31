@@ -4,7 +4,7 @@ const { DataTypes } = require('sequelize');
 module.exports = async (sequelize) => {
     const Loyalty = sequelize.define('Loyalty', {
         LOYALTY_ID: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.INTEGER.UNSIGNED,
             allowNull: false,
             primaryKey: true,
             autoIncrement: true,

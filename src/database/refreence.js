@@ -1,21 +1,25 @@
 function applyForeignKeySetup(sequelize) {
 	const { AgentPermission, Roles, Game, GameGroup, MenuPermission, Menu, Agent } = sequelize.models;
 
-	Roles.hasMany(AgentPermission, { constraints: true, allowNull: false, foreignKey: 'ROLE_ID' });
-	AgentPermission.belongsTo(Roles, { constraints: true, allowNull: false, foreignKey: 'ROLE_ID' });
+	Roles.hasMany(AgentPermission, { constraints: true, foreignKey: { name: 'ROLE_ID', allowNull: false } });
+	AgentPermission.belongsTo(Roles, { constraints: true, foreignKey: { name: 'ROLE_ID', allowNull: false } });
 
-	GameGroup.hasMany(Game, { constraints: true, allowNull: false, foreignKey: 'GAMEGROUP_ID' });
-	Game.belongsTo(GameGroup, { constraints: true, allowNull: false, foreignKey: 'GAMEGROUP_ID' });
+	GameGroup.hasMany(Game, { constraints: true, foreignKey: { name: 'GAMEGROUP_ID', allowNull: false } });
+	Game.belongsTo(GameGroup, { constraints: true, foreignKey: { name: 'GAMEGROUP_ID', allowNull: false } });
 
-	Roles.hasMany(MenuPermission, { constraints: true, allowNull: false, foreignKey: 'ROLE_ID' });
-	MenuPermission.belongsTo(Roles, { constraints: true, allowNull: false, foreignKey: 'ROLE_ID' });
+	Roles.hasMany(MenuPermission, { constraints: true, foreignKey: { name: 'ROLE_ID', allowNull: false } });
+	MenuPermission.belongsTo(Roles, { constraints: true, foreignKey: { name: 'ROLE_ID', allowNull: false } });
 
-	Menu.hasMany(MenuPermission, { constraints: true, allowNull: false, foreignKey: 'MENU_ID' });
-	MenuPermission.belongsTo(Menu, { constraints: true, allowNull: false, foreignKey: 'MENU_ID' });
+	Menu.hasMany(MenuPermission, { constraints: true, foreignKey: { name: 'MENU_ID', allowNull: false } });
+	MenuPermission.belongsTo(Menu, { constraints: true, foreignKey: { name: 'MENU_ID', allowNull: false } });
 
-	
-	Roles.hasMany(Agent, { constraints: true, allowNull: false, foreignKey: 'ROLE_ID' });
-	Agent.belongsTo(Roles, { constraints: true, allowNull: false, foreignKey: 'ROLE_ID' });
+
+	Roles.hasMany(Agent, { constraints: true, foreignKey: { name: 'ROLE_ID', allowNull: false } });
+	Agent.belongsTo(Roles, { constraints: true, foreignKey: { name: 'ROLE_ID', allowNull: false } });
+
+
+
+	Agent.hasOne(Agent, { constraints: true, foreignKey: { name: 'PARENT_AGENT_ID' } });
 
 }
 

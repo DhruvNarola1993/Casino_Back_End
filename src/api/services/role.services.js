@@ -82,8 +82,8 @@ async function listServices(params) {
             " group_concat(t1.ROLE_ID ORDER BY t1.ROLE_ID DESC) AS ROLE_PARENT_ID , " +
             " t2.DESCRIPTION AS DESCRIPTION, " +
             " t2.UPDATE_DATE AS UPDATE_DATE  " +
-            " FROM ROLES t1, ROLES t2  WHERE t1.ISDELETE = 0 and t2.ISACTIVE = 1 AND " +
-            " FIND_IN_SET(t1.ROLE_ID, t2.ROLE_PARENT_ID) group by t2.ROLE_ID " +
+            " FROM ROLES t1, ROLES t2  WHERE  " +
+            " FIND_IN_SET(t1.ROLE_ID, t2.ROLE_PARENT_ID) AND t2.ISDELETE=0 group by t2.ROLE_ID " +
             " ORDER BY t2.ROLE_ID DESC " +
             " LIMIT " + parseInt(pageLimit) + " OFFSET " + parseInt(pageNumber);
         let countRecords = await models.Roles.count({});
@@ -118,6 +118,7 @@ async function dropdownServices() {
             order: [
                 ['ROLE_ID', 'DESC']
             ],
+            limit: 1,
             attributes: ['ROLE_NAME', 'ROLE_ID', 'ROLE_PARENT_ID']
         });
         return {
@@ -193,11 +194,14 @@ async function updateServices(params) {
 async function deleteServices(params) {
     try {
         const { ROLE_ID } = params;
-        var deleteOne = await models.Roles.destroy({
-            where: {
-                ROLE_ID: ROLE_ID
+        var deleteOne = await models.Roles.update(
+            { ISDELETE: true },
+            {
+                where: {
+                    ROLE_ID: ROLE_ID
+                }
             }
-        });
+        );
         if (deleteOne) {
             return {
                 status: true,
