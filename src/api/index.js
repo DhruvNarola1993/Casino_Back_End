@@ -25,6 +25,8 @@ router.use('/slider', require('./router/slider.router'));
 
 router.use('/agent', require('./router/agent.router'));
 
+// router.use('/player', require('./router/'));
+
 // router.use('/menupermission', require('./router/slider.router'));
 
 

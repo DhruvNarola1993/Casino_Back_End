@@ -2,43 +2,43 @@
 const { DataTypes } = require('sequelize');
 
 module.exports = async (sequelize) => {
-    const Agent = sequelize.define('Agent', {
-        AGENT_ID: {
+    const Player = sequelize.define('Player', {
+        PLAYER_ID: {
             type: DataTypes.INTEGER.UNSIGNED,
             allowNull: false,
             primaryKey: true,
             autoIncrement: true,
         },
-        AGENT_USERNAME: {
+        PLAYER_USERNAME: {
             type: DataTypes.STRING,
             allowNull: false,
             unique: {
                 args: true,
-                msg: 'User-Name must be unique.'
+                msg: 'Username must be unique.'
             },
             validate: {
                 notNull: {
                     args: true,
-                    msg: "User can not be empty."
+                    msg: "Username can not be empty."
                 },
                 notEmpty: {
                     args: true,
-                    msg: "User can not be empty."
+                    msg: "Username can not be empty."
                 },
                 len: {
                     args: [3, 50],
-                    msg: 'User must start with a letter, have no spaces, and be 3 - 50 characters.'
+                    msg: 'Username must start with a letter, have no spaces, and be 3 - 50 characters.'
                 },
             },
         },
-        AGENT_NAME: {
+        PLAYER_NAME: {
             type: DataTypes.STRING
         },
-        AGENT_EMAIL: {
+        PLAYER_EMAIL: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        AGENT_PHONE: {
+        PLAYER_PHONE: {
             type: DataTypes.STRING,
             allowNull: false,
         },
@@ -46,21 +46,9 @@ module.exports = async (sequelize) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        ADDRESS: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        AGENT_PERMISSION_IDS: {
-            type: DataTypes.STRING,
-            allowNull: true
-        },
-        GAMEGROUP_IDS: {
-            type: DataTypes.STRING,
-            allowNull: true
-        },
         ISACTIVE: {
             type: DataTypes.BOOLEAN,
-            defaultValue: false,
+            defaultValue: true,
             allowNull: false,
         },
         ISDELETE: {
@@ -79,11 +67,6 @@ module.exports = async (sequelize) => {
         LOGIN_DATE: {
             type: DataTypes.DATE
         },
-        ISBLOCK: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: true,
-            allowNull: false
-        }
-    }, { tableName: 'AGENT' });
-    return Agent;
+    }, { tableName: 'PLAYER' });
+    return Player;
 };
