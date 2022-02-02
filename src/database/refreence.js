@@ -1,6 +1,8 @@
 function applyForeignKeySetup(sequelize) {
 	const { AgentPermission, Roles, Game, GameGroup, MenuPermission, Menu, Agent } = sequelize.models;
 
+	Roles.hasOne(Roles, { constraints: true, foreignKey: { name: 'CHILD_ROLE_ID' } });
+
 	Roles.hasMany(AgentPermission, { constraints: true, foreignKey: { name: 'ROLE_ID', allowNull: false } });
 	AgentPermission.belongsTo(Roles, { constraints: true, foreignKey: { name: 'ROLE_ID', allowNull: false } });
 
@@ -16,8 +18,6 @@ function applyForeignKeySetup(sequelize) {
 
 	Roles.hasMany(Agent, { constraints: true, foreignKey: { name: 'ROLE_ID', allowNull: false } });
 	Agent.belongsTo(Roles, { constraints: true, foreignKey: { name: 'ROLE_ID', allowNull: false } });
-
-
 
 	Agent.hasOne(Agent, { constraints: true, foreignKey: { name: 'PARENT_AGENT_ID' } });
 

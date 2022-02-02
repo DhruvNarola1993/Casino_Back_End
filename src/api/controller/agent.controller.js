@@ -1,5 +1,5 @@
 const { insertHelper, getAgentTypeHelper, getAgentPermissionHelper, getGameGroupHelper, 
-    viewHelper, countUserNameHelper, selectAgentTypeHelper } = require('../helper/agent.helper');
+    viewHelper, countUserNameHelper, selectAgentTypeHelper, selectAgentTypeAndAgentHelper } = require('../helper/agent.helper');
 
 /***
  * 
@@ -108,6 +108,24 @@ exports.insertController = async (req, res, next) => {
     var response;
     try {
         response = await countUserNameHelper(req.body);
+        res.json(response);
+    } catch (error) {
+        res.json({ error: error });
+    }
+};
+
+
+
+/***
+ * 
+ * @description Role Pagination View in Table 
+ * 
+ */
+ exports.selectAgentTypeAndAgentController = async (req, res, next) => {
+    var response;
+    try {
+        console.log(req.body)
+        response = await selectAgentTypeAndAgentHelper(req.body);
         res.json(response);
     } catch (error) {
         res.json({ error: error });

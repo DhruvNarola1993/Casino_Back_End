@@ -81,7 +81,7 @@ module.exports = async (sequelize) => {
         },
         ISBLOCK: {
             type: DataTypes.BOOLEAN,
-            defaultValue: true,
+            defaultValue: false,
             allowNull: false
         }
     }, { tableName: 'AGENT' });

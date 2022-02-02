@@ -47,9 +47,9 @@ async function listServices(params) {
             where: { ISDELETE: false },
             offset: pageNumber * pageLimit,
             limit: pageLimit,
-            order: [
-                ['LOYALTY_ID', 'DESC']
-            ]
+            // order: [
+            //     ['LOYALTY_ID', 'DESC']
+            // ]
         });
         let countRecords = await models.Loyalty.count({ where: { ISDELETE: false } });
         return {

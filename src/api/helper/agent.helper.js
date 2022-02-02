@@ -1,6 +1,6 @@
 const { encryptpassword } = require('../../common/password.auth');
 const { insertServices, getAgentTypeServices, getAgentPermissionServices, getGameGroupServices, 
-    listServices, selectAgentTypeServices, countUserNameServices } = require('../services/agent.services');
+    listServices, selectAgentTypeServices, countUserNameServices, selectAgentTypeAndAgentHelperServices } = require('../services/agent.services');
 
 /***
  * 
@@ -134,4 +134,21 @@ async function viewHelper(params) {
     }
 }
 
-module.exports = { insertHelper, getAgentTypeHelper, getAgentPermissionHelper, getGameGroupHelper, viewHelper, selectAgentTypeHelper, countUserNameHelper };
+/***
+ * 
+ * @description Role Help For Pagination
+ * 
+ */
+ async function selectAgentTypeAndAgentHelper(params) {
+    try {
+        var selectAgentTypeAndAgentHelperService = await selectAgentTypeAndAgentHelperServices(params);
+        return selectAgentTypeAndAgentHelperService;
+    } catch (error) {
+        return {
+            status: false,
+            msg: "Helper Error."
+        };
+    }
+}
+
+module.exports = { insertHelper, getAgentTypeHelper, getAgentPermissionHelper, getGameGroupHelper, viewHelper, selectAgentTypeHelper, countUserNameHelper, selectAgentTypeAndAgentHelper };

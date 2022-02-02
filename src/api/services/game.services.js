@@ -85,7 +85,7 @@ async function updateServices(params) {
                 { GAME_ID: GAME_ID, GAME_NAME: GAME_NAME, GAME_URL: GAME_URL, GAME_IMAGE: GAME_IMAGE, DESCRIPTION: DESCRIPTION, GAMEGROUP_ID: GAMEGROUP_ID, UPDATE_DATE: new Date(), ISACTIVE: true }
             );
         } else {
-            const { GAME_ID, GAME_NAME, GAME_URL, GAMEGROUP_ID } = params;
+            const { GAME_ID, GAME_NAME, GAME_URL, DESCRIPTION, GAMEGROUP_ID } = params;
             updateOne = await models.Game.upsert(
                 { GAME_ID: GAME_ID, GAME_NAME: GAME_NAME, GAME_URL: GAME_URL, GAMEGROUP_ID: GAMEGROUP_ID, DESCRIPTION: DESCRIPTION, UPDATE_DATE: new Date(), ISACTIVE: true }
             );

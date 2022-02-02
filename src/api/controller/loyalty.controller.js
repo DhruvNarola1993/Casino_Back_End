@@ -39,7 +39,7 @@ exports.insertController = async (req, res, next) => {
  exports.updateController = async (req, res, next) => {
     var response;
     try {
-        req.body.FAQ_ID = req.params.id;
+        req.body.LOYALTY_ID = req.params.id;
         response = await updateHelper(req.body);
         res.json(response);
     } catch (error) {

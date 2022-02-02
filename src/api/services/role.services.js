@@ -25,6 +25,7 @@ const { models } = require('../../database/index');
 async function insertServices(params) {
     try {
         var insertSave = await models.Roles.create(params);
+        var getFirstParentId = parseInt(params.ROLE_PARENT_ID.split(',')[0]);
         if (insertSave != undefined) {
             await models.AgentPermission.bulkCreate([
                 { AGENT_PERMISSION_KEY: "CREATE_CASHIER", AGENT_PERMISSION_VALUE: "Can Create Cashiers", CREATE_DATE: new Date(), UPDATE_DATE: new Date(), ROLE_ID: insertSave.dataValues.ROLE_ID },
@@ -45,6 +46,8 @@ async function insertServices(params) {
                 " AND  FIND_IN_SET(t1.ROLE_ID, t2.ROLE_PARENT_ID) " +
                 " group by t2.ROLE_ID LIMIT 1 ";
             var getRow = await sequelize.query(strQuery, { type: QueryTypes.SELECT });
+            /// Update Child Id's 
+            await models.Roles.update({ CHILD_ROLE_ID: insertSave.ROLE_ID }, { where: { ROLE_ID: getFirstParentId } })
             return {
                 status: true,
                 msg: "Create Successfully.",
