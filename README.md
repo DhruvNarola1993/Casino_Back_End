@@ -1,3 +1,3 @@
 # Casino Backend 
 
-Express MySQL
+Express MySQL Sequelize
